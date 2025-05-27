@@ -10,6 +10,7 @@ from urllib.request import urlopen
 
 import instructor
 from fastapi import File, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 from modal import asgi_app
 from openai import OpenAI, AsyncOpenAI
 from PIL import Image
@@ -513,3 +514,8 @@ async def process_single_iteration(
                 f"Error processing iteration {iteration} for prompt '{prompt}': {str(e)}"
             )
             return None
+
+# Chris: DB Download API Endpoint
+@fastapi_app.get("/download-db")
+async def download_db():
+    return FileResponse(DB_PATH, filename="evals.db")
